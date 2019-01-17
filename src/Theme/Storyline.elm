@@ -1,14 +1,12 @@
-module Theme.Storyline exposing (..)
-
-import Html exposing (..)
-import Html.Keyed
-import Html.Attributes exposing (..)
-
+module Theme.Storyline exposing (view)
 
 -- import Html.Events exposing (..)
 
-import Markdown
 import ClientTypes exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Html.Keyed
+import Markdown
 
 
 view :
@@ -31,19 +29,21 @@ view storyLine ending =
                     , ( "u-fade-in", i == 0 )
                     ]
             in
-                ( key
-                , li [ classList classes ] <|
-                    [ h4 [ class "Storyline__Item__Action" ] <| [ text interactableName ]
-                    , Markdown.toHtml [ class "Storyline__Item__Narrative markdown-body" ] narrative
-                    ]
-                        ++ if i == 0 && ending /= Nothing then
+            ( key
+            , li [ classList classes ] <|
+                [ h4 [ class "Storyline__Item__Action" ] <| [ text interactableName ]
+                , Markdown.toHtml [ class "Storyline__Item__Narrative markdown-body" ] narrative
+                ]
+                    ++ (if i == 0 && ending /= Nothing then
                             [ h5
                                 [ class "Storyline__Item__Ending" ]
                                 [ text <| Maybe.withDefault "The End" ending ]
                             ]
-                           else
+
+                        else
                             []
-                )
+                       )
+            )
     in
-        Html.Keyed.ol [ class "Storyline" ]
-            (List.indexedMap storyLi storyLine)
+    Html.Keyed.ol [ class "Storyline" ]
+        (List.indexedMap storyLi storyLine)

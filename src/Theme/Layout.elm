@@ -1,13 +1,13 @@
-module Theme.Layout exposing (..)
+module Theme.Layout exposing (view)
 
+import ClientTypes exposing (..)
+import Components exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Theme.CurrentSummary exposing (..)
-import Theme.Storyline exposing (..)
-import Theme.Locations exposing (..)
 import Theme.Inventory exposing (..)
-import ClientTypes exposing (..)
-import Components exposing (..)
+import Theme.Locations exposing (..)
+import Theme.Storyline exposing (..)
 
 
 view :

@@ -1,10 +1,10 @@
-module Theme.Locations exposing (..)
+module Theme.Locations exposing (view)
 
+import ClientTypes exposing (..)
+import Components exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import ClientTypes exposing (..)
-import Components exposing (..)
 import Tuple
 
 
@@ -30,8 +30,8 @@ view exits currentLocation =
                     )
                 |> div []
     in
-        div [ class "Locations" ]
-            [ h3 [] [ text "Connecting locations" ]
-            , div [ class "Locations__list" ]
-                [ exitsList ]
-            ]
+    div [ class "Locations" ]
+        [ h3 [] [ text "Connecting locations" ]
+        , div [ class "Locations__list" ]
+            [ exitsList ]
+        ]

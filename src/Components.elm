@@ -1,7 +1,7 @@
-module Components exposing (..)
+module Components exposing (Component(..), Components, Direction(..), Entity, Exits, addClassName, addComponent, addConnectingLocations, addDisplayInfo, addNarrative, addRuleData, entity, getClassName, getDisplayInfo, getExits, getNarrative, getRuleData)
 
-import Engine
 import Dict exposing (..)
+import Engine
 import List.Zipper as Zipper exposing (Zipper)
 
 

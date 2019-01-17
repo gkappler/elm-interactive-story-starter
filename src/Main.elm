@@ -1,17 +1,19 @@
-port module Main exposing (..)
+port module Main exposing (Model, findEntity, init, loaded, main, subscriptions, update, view)
 
-import Engine exposing (..)
-import Manifest
-import Rules
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Tuple
-import Theme.Layout
 import ClientTypes exposing (..)
-import Narrative
 import Components exposing (..)
 import Dict exposing (Dict)
+import Engine exposing (..)
+import Browser exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import List.Zipper as Zipper exposing (Zipper)
+import Manifest
+import Narrative
+import Rules
+import Theme.Layout
+import Tuple
+
 
 
 {- This is the kernel of the whole app.  It glues everything together and handles some logic such as choosing the correct narrative to display.
@@ -28,8 +30,8 @@ type alias Model =
     }
 
 
-init : ( Model, Cmd ClientTypes.Msg )
-init =
+init : () -> ( Model, Cmd ClientTypes.Msg )
+init _ =
     let
         engineModel =
             Engine.init
@@ -37,17 +39,17 @@ init =
                 , locations = List.map Tuple.first Manifest.locations
                 , characters = List.map Tuple.first Manifest.characters
                 }
-                (Dict.map (curry getRuleData) Rules.rules)
+                (Dict.map (\a b -> getRuleData ( a, b )) Rules.rules)
                 |> Engine.changeWorld Rules.startingState
     in
-        ( { engineModel = engineModel
-          , loaded = False
-          , storyLine = [ Narrative.startingNarrative ]
-          , narrativeContent = Dict.map (curry getNarrative) Rules.rules
-          , endingCountDown = 0
-          }
-        , Cmd.none
-        )
+    ( { engineModel = engineModel
+      , loaded = True
+      , storyLine = [ Narrative.startingNarrative ]
+      , narrativeContent = Dict.map (\a b -> getNarrative ( a, b )) Rules.rules
+      , endingCountDown = 0
+      }
+    , Cmd.none
+    )
 
 
 findEntity : String -> Entity
@@ -66,6 +68,7 @@ update msg model =
     if Engine.getEnding model.engineModel /= Nothing then
         -- no-op if story has ended
         ( model, Cmd.none )
+
     else
         case msg of
             Interact interactableId ->
@@ -108,17 +111,18 @@ update msg model =
                     checkEnd =
                         if updatedEndingCountDown == 3 then
                             Engine.changeWorld [ endStory "The End" ]
+
                         else
                             identity
                 in
-                    ( { model
-                        | engineModel = newEngineModel |> checkEnd
-                        , storyLine = narrativeForThisInteraction :: model.storyLine
-                        , narrativeContent = updatedContent
-                        , endingCountDown = updatedEndingCountDown
-                      }
-                    , Cmd.none
-                    )
+                ( { model
+                    | engineModel = newEngineModel |> checkEnd
+                    , storyLine = narrativeForThisInteraction :: model.storyLine
+                    , narrativeContent = updatedContent
+                    , endingCountDown = updatedEndingCountDown
+                  }
+                , Cmd.none
+                )
 
             Loaded ->
                 ( { model | loaded = True }
@@ -157,10 +161,11 @@ view model =
                 model.storyLine
             }
     in
-        if not model.loaded then
-            div [ class "Loading" ] [ text "Loading..." ]
-        else
-            Theme.Layout.view displayState
+    if not model.loaded then
+        div [ class "Loading" ] [ text "Loading..." ]
+
+    else
+        Theme.Layout.view displayState
 
 
 port loaded : (Bool -> msg) -> Sub msg

@@ -1,6 +1,7 @@
-module Narrative exposing (..)
+module Narrative exposing (confusedByWolf, crossingTheRiver, dallying, demise, enteringWoods, excitedToVisitGrandma, findWolfAtGrandmas, forgettingBasket, happyToSeeGrandma, ignoreWolf, inTheWoods, leavingCottage, leavingWithoutBasket, leavingWithoutCape, realizingMistake, returningToCottage, returningToRiver, sharingFoodWithGrandma, shivering, startingNarrative, surprisedByWolf, takeBasket, takeCape, talkToMother, talkToWolf)
 
 import ClientTypes exposing (..)
+
 
 
 {- Here is where you can write all of your story text, which keeps the Rules.elm file a little cleaner.

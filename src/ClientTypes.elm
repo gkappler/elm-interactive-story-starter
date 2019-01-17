@@ -1,4 +1,4 @@
-module ClientTypes exposing (..)
+module ClientTypes exposing (Msg(..), StorySnippet)
 
 
 type Msg

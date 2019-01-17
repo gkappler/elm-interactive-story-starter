@@ -1,8 +1,8 @@
-module Rules exposing (..)
+module Rules exposing (rule, rules, startingState)
 
-import Engine exposing (..)
 import Components exposing (..)
 import Dict exposing (Dict)
+import Engine exposing (..)
 import Narrative
 
 

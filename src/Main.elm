@@ -176,9 +176,9 @@ subscriptions model =
     loaded <| always Loaded
 
 
-main : Program Never Model ClientTypes.Msg
+main : Program () Model ClientTypes.Msg
 main =
-    Html.program
+    Browser.element
         { init = init
         , view = view
         , update = update

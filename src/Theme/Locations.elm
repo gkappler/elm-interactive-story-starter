@@ -7,6 +7,19 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Tuple
 
+render : Direction -> Html Msg
+render direction =
+    case direction of
+        East ->
+            text <| " is to the east."
+        West ->
+            text <| " is to the west."
+        North ->
+            text <| " is in the north."
+        South ->
+            text <| " is in the south."
+    
+         
 
 view :
     List ( Direction, Entity )
@@ -25,7 +38,7 @@ view exits currentLocation =
                                 , onClick <| Interact <| Tuple.first entity
                                 ]
                                 [ text <| .name <| getDisplayInfo entity ]
-                            , text <| " is to the " ++ toString direction ++ "."
+                            , render direction
                             ]
                     )
                 |> div []
